@@ -63,22 +63,3 @@ ipc.on('open-file-dialog', function(event) {
     }
   })
 });
-
-ipc.on('set-timer', function(event, duration){
-  switch(duration){
-    case "30s":
-      event.sender.send('set-image-interval', 30 * 1000);
-      break;
-    case "1m":
-      event.sender.send('set-image-interval', 60 * 1000);
-      break;
-    case "2m":
-      event.sender.send('set-image-interval', 60 * 2 * 1000);
-      break;
-    case "5m":
-      event.sender.send('set-image-interval', 60 * 5 * 1000);
-      break;
-    case custom:
-      //open dialog
-  }
-});
