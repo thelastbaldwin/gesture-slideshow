@@ -7,6 +7,8 @@ const mainEl = document.getElementsByTagName("main")[0];
 const controlsEl = document.getElementById("controls");
 const settingsIconEl = document.getElementById("settings-icon");
 const forwardIconEl = document.getElementById("forward-icon");
+const playIconEl = document.getElementById("play-icon");
+const pauseIconEl = document.getElementById("pause-icon");
 const backIconEl = document.getElementById("back-icon");
 const settingsEl = document.getElementById("settings");
 const timeEl = document.getElementById("time");
@@ -18,20 +20,21 @@ let fileIndex = 0;
 let imageInterval;
 let timerLength;
 let currentTimerValue;
+let isPaused = true;
 
-selectDirBtn.addEventListener('click', function(event) {
+selectDirBtn.addEventListener("click", function(event) {
   event.preventDefault();
-  ipc.send('open-file-dialog');
+  ipc.send("open-file-dialog");
 });
 
-ipc.on('selected-directory', function(event, arg) {
+ipc.on("selected-directory", function(event, arg) {
   currentDir = arg.directory;
   files = arg.files;
   fileIndex = 0;
   getNextFile();
 });
 
-ipc.on('set-image-interval', function(event, arg){
+ipc.on("set-image-interval", function(event, arg){
   setupTimer(arg);
 });
 
@@ -41,6 +44,17 @@ function hideControls(){
 
 function showControls(){
   controlsEl.classList.remove("hidden");
+}
+
+function parseTime(timeString){
+  const timeRegex = /(\s+)?((\d+)m)?\s?((\d+)s)?/;
+  const match = timeRegex.exec(timeString);
+  if (match){
+    return {
+      minutes: +match[3] | 0,
+      seconds: +match[5] | 0
+    }
+  }
 }
 
 function formatTime(seconds){
@@ -59,12 +73,14 @@ function setTimer(duration){
   timerLength = currentTimerValue = duration;
   clearInterval(imageInterval);
   imageInterval = setInterval(function(){
-    currentTimerValue--;
-    if (currentTimerValue === 0){
-      getNextFile();
-      currentTimerValue = timerLength;
+    if(!isPaused){
+      currentTimerValue--;
+      if (currentTimerValue === 0){
+        getNextFile();
+        currentTimerValue = timerLength;
+      }
+      updateTimerDisplay(currentTimerValue);
     }
-    updateTimerDisplay(currentTimerValue);
   }, 1000);
 }
 
@@ -96,6 +112,15 @@ settingsIconEl.addEventListener("click", toggleMenu);
 mainEl.addEventListener("click", hideMenu);
 backIconEl.addEventListener("click", getPreviousFile);
 forwardIconEl.addEventListener("click", getNextFile);
+
+playIconEl.addEventListener("click", ()=>{
+  isPaused = false;
+});
+
+pauseIconEl.addEventListener("click", ()=>{
+  isPaused = true;
+});
+
 document.body.addEventListener("mousemove", (function(){
   let hideControlsTimeout = setTimeout(hideControls, 3000);
 

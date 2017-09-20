@@ -110,8 +110,13 @@ main.inactive {
   transition: transform 500ms ease-in-out;
 }
 
-#settings.active{
+#settings.active {
   transform: translateX(0);
+}
+
+#custom-time {
+  font-size: 1.4rem;
+  margin: 5% 0 1%;
 }
 
 #frame {
