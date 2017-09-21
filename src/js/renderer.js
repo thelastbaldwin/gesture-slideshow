@@ -94,17 +94,21 @@
   }
 
   function getPreviousFile(){
-    --fileIndex;
-    if (fileIndex < 0) {
-      fileIndex = files.length - 1;
+    if (files.length){
+      --fileIndex;
+      if (fileIndex < 0) {
+        fileIndex = files.length - 1;
+      }
+      imageEl.src = `${currentDir}/${files[fileIndex]}`;
     }
-    imageEl.src = `${currentDir}/${files[fileIndex]}`;
   }
 
   function getNextFile(){
-    ++fileIndex;
-    fileIndex %= files.length;
-    imageEl.src = `${currentDir}/${files[fileIndex]}`;
+    if (files.length){
+      ++fileIndex;
+      fileIndex %= files.length;
+      imageEl.src = `${currentDir}/${files[fileIndex]}`;
+    }
   }
 
   function toggleMenu(){
