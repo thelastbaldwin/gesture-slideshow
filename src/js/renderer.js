@@ -28,8 +28,13 @@ selectDirBtn.addEventListener("click", function(event) {
 });
 
 ipc.on("selected-directory", function(event, arg) {
+  const fileRegex = /\.(png|jpe?g|gif|tiff|bmp)/;
+
   currentDir = arg.directory;
-  files = arg.files;
+
+  files = arg.files.filter(filename => {
+    return fileRegex.test(filename);
+  });
   fileIndex = 0;
   getNextFile();
 });
@@ -66,7 +71,9 @@ function formatTime(seconds){
 }
 
 function updateTimerDisplay(seconds){
-  timeEl.innerText = formatTime(seconds);
+  if (timerLength){
+    timeEl.innerText = formatTime(seconds);
+  }
 }
 
 function setTimer(duration){
@@ -86,15 +93,17 @@ function setTimer(duration){
 }
 
 function getPreviousFile(){
+  --fileIndex;
+  if (fileIndex < 0) {
+    fileIndex = files.length - 1;
+  }
   imageEl.src = `${currentDir}/${files[fileIndex]}`;
-  fileIndex--;
-  fileIndex %= files.length;
 }
 
 function getNextFile(){
-  imageEl.src = `${currentDir}/${files[fileIndex]}`;
-  fileIndex++;
+  ++fileIndex;
   fileIndex %= files.length;
+  imageEl.src = `${currentDir}/${files[fileIndex]}`;
 }
 
 function toggleMenu(){
@@ -112,13 +121,17 @@ function hideMenu(){
 settingsIconEl.addEventListener("click", toggleMenu);
 mainEl.addEventListener("click", hideMenu);
 backIconEl.addEventListener("click", ()=>{
-  getPreviousFile();
-  setTimer(timerLength);
+  if (files.length){
+    getPreviousFile();
+    setTimer(timerLength);
+  }
 
 });
 forwardIconEl.addEventListener("click", ()=>{
-  getNextFile();
-  setTimer(timerLength);
+  if (files.length){
+    getNextFile();
+    setTimer(timerLength);
+  }
 });
 
 playIconEl.addEventListener("click", ()=>{
@@ -143,23 +156,23 @@ for(let i = 0; i < timerButtons.length; i++){
   timerButtons[i].addEventListener("click", function(event){
     switch(this.dataset.duration){
       case "30s":
-        setTimer(30);
-        isPaused = false;
-        break;
+      setTimer(30);
+      isPaused = false;
+      break;
       case "1m":
-        setTimer(60);
-        isPaused = false;
-        break;
+      setTimer(60);
+      isPaused = false;
+      break;
       case "2m":
-        setTimer(60 * 2);
-        isPaused = false;
-        break;
+      setTimer(60 * 2);
+      isPaused = false;
+      break;
       case "5m":
-        setTimer(60 * 5);
-        isPaused = false;
-        break;
+      setTimer(60 * 5);
+      isPaused = false;
+      break;
       case "custom":
         //open dialog
-    }
-  });
+      }
+    });
 }
