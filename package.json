@@ -5,6 +5,8 @@
   "main": "src/js/index.js",
   "scripts": {
     "start": "electron .",
+    "pack": "electron-builder --dir",
+    "dist": "electron-builder",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
@@ -15,7 +17,14 @@
   "author": "Steve Minor",
   "license": "ISC",
   "devDependencies": {
-    "electron": "^1.7.6"
+    "electron": "^1.7.6",
+    "electron-builder": "^19.27.7"
+  },
+  "build": {
+    "appId": "com.gesture-slideshow.app",
+    "mac": {
+      "category": "public.app-category.photography"
+    }
   },
   "dependencies": {
     "lodash.debounce": "^4.0.8"
