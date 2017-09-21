@@ -17,8 +17,8 @@ button {
   border: none;
   border-radius: 0;
   background: #fff;
-  padding: 2%;
-  font-size: 1.4rem;
+  padding: 2% 4%;
+  font-size: 3vw;
 }
 
 .hidden {
@@ -59,9 +59,11 @@ main.inactive {
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: space-between;
+  justify-content: space-around;
   padding: 2%;
   transition: opacity 250ms linear;
+  background: rgba(0, 0, 0, 0.3);
+  z-index: 2;
 }
 
 #controls:hover,
@@ -74,15 +76,11 @@ main.inactive {
 }
 
 #controls img{
-    flex: 1;
+    flex: auto;
     overflow: visible;
-    max-width: 50px;
     max-height: 50px;
-    height: 4%;
     width: 4%;
     cursor: pointer;
-    z-index: 2;
-    filter: drop-shadow(0 0 2px #000);
 }
 
 #controls img:focus, #controls img:active{
@@ -98,7 +96,7 @@ main.inactive {
 }
 
 #settings {
-  padding: 6vw 2% 0;
+  padding: calc(4% + 50px) 2% 0;
   width: 40vw;
   height: 100vh;
   position: absolute;
@@ -114,8 +112,19 @@ main.inactive {
   transform: translateX(0);
 }
 
+.interval-presets {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.interval-presets .timer-button{
+
+}
+
 #custom-time {
-  font-size: 1.4rem;
+  font-size: 3vw;
   margin: 5% 0 1%;
 }
 

@@ -70,8 +70,9 @@ function updateTimerDisplay(seconds){
 }
 
 function setTimer(duration){
-  timerLength = currentTimerValue = duration;
   clearInterval(imageInterval);
+  timerLength = currentTimerValue = duration;
+  updateTimerDisplay(currentTimerValue);
   imageInterval = setInterval(function(){
     if(!isPaused){
       currentTimerValue--;
@@ -110,8 +111,15 @@ function hideMenu(){
 
 settingsIconEl.addEventListener("click", toggleMenu);
 mainEl.addEventListener("click", hideMenu);
-backIconEl.addEventListener("click", getPreviousFile);
-forwardIconEl.addEventListener("click", getNextFile);
+backIconEl.addEventListener("click", ()=>{
+  getPreviousFile();
+  setTimer(timerLength);
+
+});
+forwardIconEl.addEventListener("click", ()=>{
+  getNextFile();
+  setTimer(timerLength);
+});
 
 playIconEl.addEventListener("click", ()=>{
   isPaused = false;
@@ -136,15 +144,19 @@ for(let i = 0; i < timerButtons.length; i++){
     switch(this.dataset.duration){
       case "30s":
         setTimer(30);
+        isPaused = false;
         break;
       case "1m":
         setTimer(60);
+        isPaused = false;
         break;
       case "2m":
         setTimer(60 * 2);
+        isPaused = false;
         break;
       case "5m":
         setTimer(60 * 5);
+        isPaused = false;
         break;
       case "custom":
         //open dialog
