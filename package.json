@@ -24,9 +24,19 @@
     "appId": "com.gesture-slideshow.app",
     "mac": {
       "category": "public.app-category.photography"
-    }
-  },
-  "dependencies": {
-    "lodash.debounce": "^4.0.8"
-  }
+    },
+    "win": {
+     "target": [
+      {
+        "target": "portable",
+        "arch": [
+          "x64"
+        ]
+      }
+    ]
+   }
+ },
+ "dependencies": {
+  "lodash.debounce": "^4.0.8"
+}
 }

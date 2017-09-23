@@ -52,7 +52,7 @@ app.on('activate', function () {
 
 ipc.on('open-file-dialog', function(event) {
   dialog.showOpenDialog({
-    properties: ['openDirectory']
+    properties: ['openDirectory', 'openFile']
   }, function (directory) {
     if(directory){
       fs.readdir(directory[0], (err, files) => {
