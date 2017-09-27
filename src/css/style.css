@@ -13,12 +13,26 @@ body {
   min-height: 100vh;
 }
 
-button {
+input[type="file"]{
+  display: none;
+}
+
+
+
+button, .select-directory-label {
   border: none;
   border-radius: 0;
   background: #fff;
   padding: 2% 4%;
   font-size: 3vw;
+}
+
+.select-directory-label {
+  display: block;
+  color: #000;
+/*  padding-top: 0%;
+  padding-bottom: 0%;*/
+  cursor: pointer;
 }
 
 .hidden {

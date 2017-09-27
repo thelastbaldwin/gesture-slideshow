@@ -16,8 +16,17 @@
     <div id="pause" class="pause"></div>
   </div>
   <aside id="settings">
-    <h3>Image Folder: </h3>
-    <button id="select-directory">Select Directory</button>
+	<h3>Select Images</h3>
+    <label class="select-directory-label">
+    	Choose Files
+    	<input 
+    		id="select-directory" 
+    		name="image-set" 
+    		type="file" 
+    		multiple
+    		accept=".png, .jpg, .jpeg, .gif, .bmp"
+    	>
+	</label>
     <h3>Interval: </h3>
     <div class="intervals">
       <div class="interval-presets">

@@ -3,40 +3,24 @@
   "version": "0.0.1",
   "description": "configurable slideshow for gesture drawing",
   "main": "src/js/index.js",
+  "repository":
+  { 
+    "type" : "git",
+    "url" : "https://github.com/thelastbaldwin/gesture-slideshow.git"
+  },
+  "author": {
+    "name": "Steve Minor",
+    "url": "http://steveminor.net"
+  },
+  "main": "index.js",
   "scripts": {
-    "start": "electron .",
-    "pack": "electron-builder --dir",
-    "dist": "electron-builder",
+    "start": "browser-sync start --server 'src' -f 'src/**/*.html, src/**/*.js,src/**/*.css' --serveStatic 'src'",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [
-    "gesture",
-    "drawing",
-    "slideshow"
-  ],
-  "author": "Steve Minor",
+  "keywords": [],
+  "author": "",
   "license": "ISC",
   "devDependencies": {
-    "electron": "^1.7.6",
-    "electron-builder": "^19.27.7"
-  },
-  "build": {
-    "appId": "com.gesture-slideshow.app",
-    "mac": {
-      "category": "public.app-category.photography"
-    },
-    "win": {
-     "target": [
-      {
-        "target": "portable",
-        "arch": [
-          "x64"
-        ]
-      }
-    ]
-   }
- },
- "dependencies": {
-  "lodash.debounce": "^4.0.8"
-}
+    "browser-sync": "^2.18.13"
+  }
 }

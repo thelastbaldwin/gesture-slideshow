@@ -1,8 +1,5 @@
 (function(){
-  const ipc = require('electron').ipcRenderer
-  const debounce = require("lodash.debounce");
-
-  const selectDirBtn = document.getElementById('select-directory')
+  const selectDirEl = document.getElementById('select-directory');
   const imageEl = document.getElementById("current-image");
   const mainEl = document.getElementsByTagName("main")[0];
   const controlsEl = document.getElementById("controls");
@@ -16,32 +13,42 @@
   const timerButtons = document.getElementsByClassName("timer-button");
 
   let currentDir;
-  let files = [];
+  let images = [];
   let fileIndex = 0;
   let imageInterval;
   let timerLength;
   let currentTimerValue;
   let isPaused = true;
 
-  selectDirBtn.addEventListener("click", function(event) {
+  selectDirEl.addEventListener("change", function(event) {
     event.preventDefault();
-    ipc.send("open-file-dialog");
-  });
-
-  ipc.on("selected-directory", function(event, arg) {
     const fileRegex = /\.(png|jpe?g|gif|tiff|bmp)/;
-
-    currentDir = arg.directory;
-
-    files = arg.files.filter(filename => {
-      return fileRegex.test(filename);
+    let selectedFiles = selectDirEl.files;
+    
+    //selectedFiles is returned as an array
+    selectedFiles = Array.prototype.filter.call(selectedFiles, file =>{
+      return fileRegex.test(file.name);
     });
-    fileIndex = 0;
-    getNextFile();
-  });
 
-  ipc.on("set-image-interval", function(event, arg){
-    setupTimer(arg);
+
+    if (selectedFiles.length){
+      images = [];
+      let processedFiles = 0;
+
+      selectedFiles.forEach(function(file, i){
+        const reader = new FileReader();
+
+        reader.addEventListener("load", function(){
+          images.push(this.result);
+          if(++processedFiles === selectedFiles.length){
+              fileIndex = 0;
+              getNextFile();
+          }
+        });
+        reader.readAsDataURL(file);
+      });
+    }
+
   });
 
   function hideControls(){
@@ -94,20 +101,20 @@
   }
 
   function getPreviousFile(){
-    if (files.length){
+    if (images.length){
       --fileIndex;
       if (fileIndex < 0) {
-        fileIndex = files.length - 1;
+        fileIndex = images.length - 1;
       }
-      imageEl.src = `${currentDir}/${files[fileIndex]}`;
+      imageEl.src = images[fileIndex];
     }
   }
 
   function getNextFile(){
-    if (files.length){
+    if (images.length){
       ++fileIndex;
-      fileIndex %= files.length;
-      imageEl.src = `${currentDir}/${files[fileIndex]}`;
+      fileIndex %= images.length;
+      imageEl.src = images[fileIndex];
     }
   }
 
@@ -136,14 +143,14 @@
   settingsIconEl.addEventListener("click", toggleMenu);
   mainEl.addEventListener("click", hideMenu);
   backIconEl.addEventListener("click", ()=>{
-    if (files.length){
+    if (images.length){
       getPreviousFile();
       setTimer(timerLength);
     }
 
   });
   forwardIconEl.addEventListener("click", ()=>{
-    if (files.length){
+    if (images.length){
       getNextFile();
       setTimer(timerLength);
     }
@@ -160,11 +167,11 @@
   document.body.addEventListener("mousemove", (function(){
     let hideControlsTimeout = setTimeout(hideControls, 3000);
 
-    return debounce(function(){
+    return function(){
       clearInterval(hideControlsTimeout);
       showControls();
       hideControlsTimeout = setTimeout(hideControls, 3000);
-    }, 100);
+    };
   }()));
 
   for(let i = 0; i < timerButtons.length; i++){
