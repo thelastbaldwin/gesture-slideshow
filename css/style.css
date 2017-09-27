@@ -6,7 +6,7 @@ body {
   margin: 0;
   color: #fff;
   font-size: 16px;
-  font-family: sans-serif;
+  font-family: 'Inconsolata', monospace;
   overflow: hidden;
   background: radial-gradient(ellipse at center, rgba(181,189,200,1) 0%,rgba(40,52,59,1) 100%);
   background-size: contain;
@@ -17,30 +17,40 @@ input[type="file"]{
   display: none;
 }
 
+button, input{
+  font-family: 'Inconsolata', monospace;
+}
+
+button, 
+.select-directory-label,
+#custom-time {
+  padding: .5vw 2vw;
+}
 
 
-button, .select-directory-label {
+button, 
+.select-directory-label {
   border: none;
   border-radius: 0;
   background: #fff;
-  padding: 2% 4%;
   font-size: 3vw;
 }
 
 .select-directory-label {
   display: block;
   color: #000;
-/*  padding-top: 0%;
-  padding-bottom: 0%;*/
   cursor: pointer;
+  margin-top: 2vw;
 }
 
 .hidden {
   opacity: 0;
 }
 
-h3 {
+.choose-interval-label {
   font-size: 3vw;
+  margin-bottom: 1vw;
+  border-bottom: .25vw solid #fff;
 }
 
 main {
@@ -139,7 +149,9 @@ main.inactive {
 
 #custom-time {
   font-size: 3vw;
-  margin: 5% 0 1%;
+  width: 100%;
+  display: block;
+  margin: 2vw 0 1vw;
 }
 
 #frame {

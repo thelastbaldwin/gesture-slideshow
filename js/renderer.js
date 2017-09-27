@@ -136,12 +136,16 @@
     const customTime = parseTime(customTimeInputValue);
     if (customTime.minutes || customTime.seconds){
       setTimer(customTime.minutes * 60 + customTime.seconds);
-      isPaused = false;
+      if (images.length){
+        isPaused = false;
+      }
     }
   }
 
   settingsIconEl.addEventListener("click", toggleMenu);
+  
   mainEl.addEventListener("click", hideMenu);
+
   backIconEl.addEventListener("click", ()=>{
     if (images.length){
       getPreviousFile();
@@ -178,21 +182,22 @@
     timerButtons[i].addEventListener("click", function(event){
       switch(this.dataset.duration){
           case "30s":
-          setTimer(30);
-          isPaused = false;
-          break;
+            document.getElementById("custom-time").value = "30s";
+            setCustomTime();
+            break;
         case "1m":
-          setTimer(60);
-          isPaused = false;
-          break;
+            document.getElementById("custom-time").value = "1m";
+            setCustomTime();
+            break;
         case "2m":
-          setTimer(60 * 2);
-          isPaused = false;
+            document.getElementById("custom-time").value = "2m";
+            setCustomTime();
+            break;
           break;
         case "5m":
-          setTimer(60 * 5);
-          isPaused = false;
-          break;
+            document.getElementById("custom-time").value = "5m";
+            setCustomTime();
+            break;
         case "custom":
           setCustomTime();
         }

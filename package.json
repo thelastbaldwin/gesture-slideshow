@@ -14,7 +14,7 @@
   },
   "main": "index.js",
   "scripts": {
-    "start": "browser-sync start --server '.' -f 'src/**/*.html, src/**/*.js,src/**/*.css' --serveStatic '.'",
+    "start": "browser-sync start --server '.' -f '**/*.html,**/*.js,**/*.css' --serveStatic '.'",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
