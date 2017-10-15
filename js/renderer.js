@@ -124,6 +124,10 @@
     mainEl.classList.toggle("inactive");
   }
 
+  function togglePlay(){
+    isPaused = !isPaused;
+  }
+
   function hideMenu(){
     settingsEl.classList.remove("active");
     settingsIconEl.classList.remove("active");
@@ -143,7 +147,7 @@
   }
 
   settingsIconEl.addEventListener("click", toggleMenu);
-  
+
   mainEl.addEventListener("click", hideMenu);
 
   backIconEl.addEventListener("click", ()=>{
@@ -177,6 +181,25 @@
       hideControlsTimeout = setTimeout(hideControls, 3000);
     };
   }()));
+
+  window.addEventListener("keyup", function(event){
+    //hopefully works in IE and Edge, but don't really care
+    const code = event.code || event.keyCode;
+
+    switch(code){
+      case("ArrowLeft"):
+        getPreviousFile();
+        setTimer(timerLength);
+        break;
+      case("ArrowRight"):
+        getNextFile();
+        setTimer(timerLength);
+        break;
+      case("Space"):
+        togglePlay();
+        break;
+    }
+  });
 
   for(let i = 0; i < timerButtons.length; i++){
     timerButtons[i].addEventListener("click", function(event){
