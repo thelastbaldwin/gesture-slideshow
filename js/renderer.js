@@ -22,9 +22,9 @@
 
   selectDirEl.addEventListener("change", function(event) {
     event.preventDefault();
-    const fileRegex = /\.(png|jpe?g|gif|tiff|bmp)/;
+    const fileRegex = /\.(png|jpe?g|gif|tiff|bmp)/i;
     let selectedFiles = selectDirEl.files;
-    
+
     //selectedFiles is returned as an array
     selectedFiles = Array.prototype.filter.call(selectedFiles, file =>{
       return fileRegex.test(file.name);
