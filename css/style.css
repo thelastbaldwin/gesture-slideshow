@@ -47,7 +47,8 @@ button,
   opacity: 0;
 }
 
-.choose-interval-label {
+.choose-interval-label,
+.scale-label {
   font-size: 3vw;
   margin-bottom: 1vw;
   border-bottom: .25vw solid #fff;

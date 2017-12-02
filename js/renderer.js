@@ -4,6 +4,7 @@
   const mainEl = document.getElementsByTagName("main")[0];
   const controlsEl = document.getElementById("controls");
   const settingsIconEl = document.getElementById("settings-icon");
+  const scalesEl = document.getElementById("scales");
   const forwardIconEl = document.getElementById("forward-icon");
   const playIconEl = document.getElementById("play-icon");
   const pauseIconEl = document.getElementById("pause-icon");
@@ -19,17 +20,11 @@
   let timerLength;
   let currentTimerValue;
   let isPaused = true;
+  let scale = 1;
 
-  selectDirEl.addEventListener("change", function(event) {
-    event.preventDefault();
+  const processFiles = files => {
     const fileRegex = /\.(png|jpe?g|gif|tiff|bmp)/i;
-    let selectedFiles = selectDirEl.files;
-
-    //selectedFiles is returned as an array
-    selectedFiles = Array.prototype.filter.call(selectedFiles, file =>{
-      return fileRegex.test(file.name);
-    });
-
+    const selectedFiles = files.filter(file => fileRegex.test(file.name));
 
     if (selectedFiles.length){
       images = [];
@@ -48,7 +43,25 @@
         reader.readAsDataURL(file);
       });
     }
+  }
 
+  mainEl.addEventListener("dragover", function(event) {
+    event.preventDefault();
+  });
+
+  mainEl.addEventListener("dragover", function(event) {
+    event.preventDefault();
+  });
+
+  document.body.addEventListener("drop", function(event) {
+    event.preventDefault();
+    let selectedFiles = [...event.dataTransfer.files];
+    processFiles(selectedFiles);
+  });
+
+  selectDirEl.addEventListener("change", function(event) {
+    event.preventDefault();
+    processFiles([...selectDirEl.files]);
   });
 
   function hideControls(){
@@ -134,7 +147,6 @@
     mainEl.classList.remove("inactive");
   }
 
-
   function setCustomTime(){
     const customTimeInputValue = document.getElementById("custom-time").value;
     const customTime = parseTime(customTimeInputValue);
@@ -157,6 +169,7 @@
     }
 
   });
+
   forwardIconEl.addEventListener("click", ()=>{
     if (images.length){
       getNextFile();
@@ -170,6 +183,23 @@
 
   pauseIconEl.addEventListener("click", ()=>{
     isPaused = true;
+  });
+
+  scalesEl.addEventListener("click", event => {
+    const id = event.target.id;
+    if(id) {
+      switch(id.split("-")[1]){
+        case "up":
+          scale += 0.1;
+          break;
+        case "down":
+          scale -= 0.1;
+          break;
+      }
+    }
+    scale = parseFloat(scale.toFixed(1));
+    //TODO: set this on individual images
+    imageEl.style.transform = `scale(${scale})`;
   });
 
   document.body.addEventListener("mousemove", (function(){

@@ -26,7 +26,7 @@
     		multiple
     		accept=".png, .jpg, .jpeg, .gif, .bmp"
     	>
-	</label>
+    </label>
     <h3 class="choose-interval-label">Choose Interval</h3>
     <div class="intervals">
       <div class="interval-presets">
@@ -38,8 +38,13 @@
       <input type="text" id="custom-time" placeholder="(ex. 5m 30s)"/>
       <button class="timer-button" data-duration="custom">Set Timer</button>
     </div>
+    <h3 class="scale-label">Set Scale</h3>
+      <div id="scales">
+        <button class="scale" id="scale-up">+</button>
+        <button class="scale" id="scale-down">-</button>
+      </div>
   </aside>
-  <main>
+  <main draggable="true">
     <aside id="time">
       00:00:00
     </aside>
